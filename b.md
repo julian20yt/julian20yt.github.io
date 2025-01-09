@@ -1,0 +1,1 @@
+Help me, I'm stuck in the basement and the basement only has an **Xbox One S** with only [Viva Piñata: Trouble in Paradise](https://en.wikipedia.org/wiki/Viva_Pi%C3%B1ata:_Trouble_in_Paradise) and **Microsoft Edge**. Please help me.
