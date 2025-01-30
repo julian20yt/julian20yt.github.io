@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="image/x-icon" href="https://web.archive.org/web/20120207000610im_/https://www.google.com/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FNAF Spammer</title>
+    <style>
+        .fnaf-div {
+            background-color: yellow;
+            margin: 5px;
+            padding: 10px;
+            font-size: 24px;
+            text-align: center;
+            border: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+    <button id="spamButton">✓ Spam FNAF</button>
+    <div id="fnafContainer"></div>
+
+    <script>
+        document.getElementById('spamButton').addEventListener('click', function() {
+            for (let i = 0; i < 10; i++) { // Adjust the number of divs as needed
+                const newDiv = document.createElement('div');
+                newDiv.className = 'fnaf-div';
+                newDiv.textContent = 'FNAF';
+                document.getElementById('fnafContainer').appendChild(newDiv);
+            }
+        });
+    </script>
+</body>
+</html>
