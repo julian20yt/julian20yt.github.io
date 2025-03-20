@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DirecTV 2009 Logo Example</title>
+  <style>
+    .logo {
+      width: 200px;
+      transition: transform 1s ease; /* Smooth spin animation */
+    }
+
+    .logo:hover {
+      transform: scale(1.2);
+    }
+
+    .container {
+      text-align: center;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>DirecTV 2009 Logo</h1>
+  <img src="https://static.wikia.nocookie.net/logopedia/images/c/cf/Directv_alternate_logo.svg/revision/latest/scale-to-width-down/263?cb=20151208042021" alt="DirecTV 2009 Logo" class="logo" id="logo">
+</div>
+
+<script>
+  const logo = document.getElementById('logo');
+  
+  // Function to generate random color
+  function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  // Adding a click event to the logo
+  logo.addEventListener('click', function() {
+    // Randomize background color
+    document.body.style.backgroundColor = getRandomColor();
+    
+    // Spin the logo 360 degrees
+    logo.style.transform = 'rotate(360deg)';
+    
+    // After the spin animation ends, reset the transform for future spins
+    setTimeout(() => {
+      logo.style.transform = 'rotate(0deg)';
+    }, 1000); // Timeout duration matches the animation duration
+  });
+</script>
+
+</body>
+</html>
