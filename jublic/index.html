@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Unicode Chaos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+    
+    </style>
+</head>
+<body>
+    <h1>Hello, World!</h1>
+    <p>This is a paragraph that will soon be transformed into utter chaos.</p>
+    <button onclick="replaceWithRandomUnicode()">Unleash Chaos</button>
+
+    <script>
+        function getRandomUnicodeChar() {
+            const randomCodePoint = Math.floor(Math.random() * (0x10FFFF - 33)) + 33;
+            return String.fromCodePoint(randomCodePoint);
+        }
+
+        function replaceWithRandomUnicode() {
+            const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+            let node;
+            
+            while (node = walker.nextNode()) {
+                if (node.nodeValue.trim().length > 0) { // Ignore empty text nodes
+                    node.nodeValue = node.nodeValue.replace(/\w/g, () => getRandomUnicodeChar());
+                }
+            }
+        }
+    </script>
+</body>
+</html>
