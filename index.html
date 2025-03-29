@@ -1,9 +1,45 @@
-<title>Julian20</title>
-<style>body {background:goldenrod;margin:0;font-family:"Arial";}
-header {font-size:40px;background:lime;text-align:center;box-shadow:#00000080 0 -5px 10px 0 inset;border-radius:1vmax/1vmin;}
-marquee#news {background:red;padding:0.4rem;box-shadow:#00000080 0 -5px 10px 0 inset;border-radius:1vmax/1vmin;}
-svg#fa-icon {width:1em;height:1em;vertical-align:-0.125em;}</style>
-<div>revamped site coming soon</div>
- <video src="https://momazosdiego.com/momazo.mp4" controls="false" autoplay="true" loop="true" play="false" pause="false" seeking="false">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Julian20</title>
+</head>
+<body>
+
+
+
+
+    <style>
+        * {
+            font-family: sans-serif;
+            background: black;
+            color: white;
+        }
+        div {
+            margin: 30vh 20vw;
+        }
+        #h1 {
+            text-shadow: 0 0 10px lime, 0 0 10px lime, 0 0 10px lime;
+            font-size: 10em;
+        }
+        #h2 {
+            font-size: 50%;
+        }
+        #h3 {
+            text-shadow: 0 0 10px cyan, 0 0 10px cyan, 0 0 10px cyan;
+            font-size: 2em;
+        }
+    </style>
+    <div>
+        <span id="h1">503 <span id="h2">SERVICE UNAVAILABLE</span></span><br>
+     <video src="https://momazosdiego.com/momazo.mp4" controls="false" autoplay="true" loop="true" play="false" pause="false" seeking="false">
 </video>
-<marquee id="news">News:MOMAZOS DIEGO WAGAGAGAGAGAGAGAAAAAAAAAAA *epik music*</marquee>
+        <span id="h3"><span id="host">THIS SERVICE SITE</span> IS CURRENTLY UNAVAILABLE DUE TO RECREATING IT. CHECK BACK LATER.</span>
+    </div>
+    <script>
+        document.getElementById('host').innerText = location.host.toUpperCase();
+    </script>
+</body>
+</html>
