@@ -33,13 +33,139 @@
         }
     </style>
     <div>
-        <span id="h1">503 <span id="h2">SERVICE UNAVAILABLE</span></span><br>
+        <span id="h1">Julian<span id="h2">20</span></span><br>
      <video src="https://momazosdiego.com/momazo.mp4" controls="false" autoplay="true" loop="true" play="false" pause="false" seeking="false">
 </video>
-        <span id="h3"><span id="host">THIS SERVICE SITE</span> IS CURRENTLY UNAVAILABLE DUE TO RECREATING IT. CHECK BACK LATER.</span>
+        <span id="h3"><span id="host">Welcome to</span> Julian20's Site.</span>
     </div>
     <script>
-        document.getElementById('host').innerText = location.host.toUpperCase();
+        var ytcsi= {
+    gt: function(n) {
+        n=(n || '')+'data_';
+
+        return ytcsi[n] || (ytcsi[n]= {
+                tick: {}
+
+                , info: {}
+            });
+    }
+
+    ,
+    now: window.performance && window.performance.timing &&window.performance.now ? function() {
+        return window.performance.timing.navigationStart+window.performance.now();
+    }
+
+    : function() {
+        return (new Date()).getTime();
+    }
+
+    ,
+    tick: function(l, t, n) {
+        ticks=ytcsi.gt(n).tick;
+        var v=t || ytcsi.now();
+
+        if (ticks[l]) {
+            ticks['_'+l]=(ticks['_' + l] || [ticks[l]]);
+            ticks['_'+l].push(v);
+        }
+
+        ticks[l]=v;
+    }
+
+    ,
+    info: function(k, v, n) {
+        ytcsi.gt(n).info[k]=v;
+    }
+
+    ,
+    setStart: function(s, t, n) {
+        ytcsi.info('yt_sts', s, n);
+        ytcsi.tick('_start', t, n);
+    }
+}
+
+;
+
+(function(w, d) {
+        ytcsi.setStart('dhs', w.performance ? w.performance.timing.responseStart : null); var isPrerender=(d.visibilityState || d.webkitVisibilityState)=='prerender'; var vName=( !d.visibilityState && d.webkitVisibilityState)? 'webkitvisibilitychange' : 'visibilitychange'; if (isPrerender) {
+            ytcsi.info('prerender', 1); var startTick=function() {
+                ytcsi.setStart('dhs'); d.removeEventListener(vName, startTick);
+            }
+
+            ; d.addEventListener(vName, startTick, false);
+        }
+
+        if (d.addEventListener) {
+            d.addEventListener(vName, function() {
+                    ytcsi.tick('vc');
+                }
+
+                , false);
+        }
+
+        var slt=function(el, t) {
+            setTimeout(function() {
+                    var n=ytcsi.now(); el.loadTime=n; if (el.slt) {
+                        el.slt();
+                    }
+                }
+
+                , t);
+        }
+
+        ; w.__ytRIL=function(el) {
+            if ( !el.getAttribute('data-thumb')) {
+                if (w.requestAnimationFrame) {
+                    w.requestAnimationFrame(function() {
+                            slt(el, 0);
+                        });
+                }
+
+                else {
+                    slt(el, 16);
+                }
+            }
+        }
+
+        ;
+    })(window, document);
+window.yterr=window.yterr || true;
+
+var ytcfg= {
+    d: function() {
+        return (window.yt && yt.config_) || ytcfg.data_ || (ytcfg.data_= {});
+    }
+
+    ,
+    get: function(k, o) {
+        return (k in ytcfg.d()) ? ytcfg.d()[k]: o;
+    }
+
+    ,
+    set: function() {
+        var a=arguments;
+
+        if (a.length > 1) {
+            ytcfg.d()[a[0]]=a[1];
+        }
+
+        else {
+            for (var k in a[0]) {
+                ytcfg.d()[k]=a[0][k];
+            }
+        }
+    }
+}
+
+;
+ytcfg.set("PAGE_CL", 198089078);
+ytcfg.set("PAGE_BUILD_LABEL", "youtube.ytfe.desktop_20180524_7_RC3");
+
+ytcfg.set("EXPERIMENT_FLAGS", {
+    "html5_serverside_pagead_id_sets_cookie":true
+});
+ytcfg.set("CORS_HEADER_ADD_ORIGIN", false);
+document.renderPostponed=true;
     </script>
 </body>
 </html>
