@@ -1,0 +1,5 @@
+{iferror:{iscript:
+screenshot https://www.google.com/search?q={url:{args}} ss
+convert ss image/bmp
+render ss default ss
+}|{text:https://pastebin.com/raw/FUGFtNzC}}
