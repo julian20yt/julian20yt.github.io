@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>YouTube Video Info Fetcher</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; }
+        #video-info { margin-top: 2em; border: 1px solid #ccc; padding: 1em; border-radius: 8px; max-width: 600px;}
+        img { max-width: 100%; border-radius: 4px; }
+        label, input, button { font-size: 1em; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>YouTube Video Info Fetcher</h1>
+    <form id="video-form">
+        <label for="youtube-url">Enter YouTube Video Link: </label>
+        <input type="url" id="youtube-url" required placeholder="https://www.youtube.com/watch?v=VIDEO_ID" style="width: 350px;">
+        <button type="submit">Fetch Info</button>
+    </form>
+    <div id="video-info"></div>
+
+    <script>
+        async function fetchVideoInfo(videoId) {
+            // Using the public no-key oEmbed endpoint for title, thumbnail, but not views/likes/date/desc.
+            // For full data, you need YouTube Data API, which requires an API key.
+            // Here, we use oEmbed for title/thumbnail, and fallback to scraping for description (not always reliable).
+            // Views/likes/date require YouTube Data API.
+            const oembedUrl = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`;
+
+            // Try to get oEmbed data
+            let oembedData = null;
+            try {
+                const res = await fetch(oembedUrl);
+                if (!res.ok) throw new Error("Invalid video or network error");
+                oembedData = await res.json();
+            } catch (e) {
+                throw new Error("Could not fetch video info. Is the link correct?");
+            }
+
+            // Fetch the HTML page to attempt to scrape description, date, views, likes (limited reliability)
+            let desc = "", date = "", views = "", likes = "";
+            try {
+                const htmlRes = await fetch(`https://corsproxy.io/?https://www.youtube.com/watch?v=${videoId}`);
+                const html = await htmlRes.text();
+                // Description (best effort)
+                const descMatch = html.match(/"shortDescription":"([^"]*)"/);
+                if (descMatch) desc = descMatch[1].replace(/\\n/g, "\n");
+
+                // Date Published
+                const dateMatch = html.match(/"dateText":\{"simpleText":"([^"]+)"/);
+                if (dateMatch) date = dateMatch[1];
+
+                // Views
+                const viewsMatch = html.match(/"viewCount":"(\d+)"/);
+                if (viewsMatch) views = parseInt(viewsMatch[1]).toLocaleString();
+
+                // Likes (may not be available)
+                const likesMatch = html.match(/"label":"([\d,]+) likes/);
+                if (likesMatch) likes = likesMatch[1];
+            } catch (e) {
+                // fallback: leave as blank
+            }
+
+            return {
+                title: oembedData.title || "",
+                thumbnail: oembedData.thumbnail_url || "",
+                author: oembedData.author_name || "",
+                description: desc,
+                date,
+                views,
+                likes
+            };
+        }
+
+        function extractVideoId(url) {
+            // Handles various YouTube URL formats
+            const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([A-Za-z0-9_-]{11})/;
+            const match = url.match(regex);
+            return match ? match[1] : null;
+        }
+
+        document.getElementById('video-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const url = document.getElementById('youtube-url').value.trim();
+            const videoId = extractVideoId(url);
+            const infoDiv = document.getElementById('video-info');
+            infoDiv.innerHTML = "";
+            if (!videoId) {
+                infoDiv.innerHTML = '<div class="error">Invalid YouTube video link.</div>';
+                return;
+            }
+            infoDiv.innerHTML = 'Fetching...';
+            try {
+                const info = await fetchVideoInfo(videoId);
+                infoDiv.innerHTML = `
+                    <h2>${info.title}</h2>
+                    <img src="${info.thumbnail}" alt="Video thumbnail"><br>
+                    <strong>By:</strong> ${info.author}<br>
+                    <strong>Description:</strong><br>
+                    <pre style="white-space: pre-wrap; background: #f8f8f8; padding: 0.5em; border-radius: 4px;">${info.description || "(not available)"}</pre>
+                    <strong>Date Published:</strong> ${info.date || "(not available)"}<br>
+                    <strong>Views:</strong> ${info.views || "(not available)"}<br>
+                    <strong>Likes:</strong> ${info.likes || "(not available)"}<br>
+                `;
+            } catch (err) {
+                infoDiv.innerHTML = `<div class="error">${err.message}</div>`;
+            }
+        });
+    </script>
+</body>
+</html>
