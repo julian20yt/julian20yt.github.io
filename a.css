@@ -1,0 +1,94 @@
+@font-face {
+  font-family: 'Lines';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  src: url(https://fonts.gstatic.com/s/linefont/v8/dg4I_pzpoqcLKUIzVfFMh1TF2rkhli25jn7CKTTWSumsFuSnY4UMbus.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Wavefont';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/wavefont/v12/L0xFDF00m0cP6hefyOCpRezQNuizSrqDyx8FHbFu21B3L4m0SEzuQYwq-f_JJ8I1WI3V07DCXK1OXQ.woff2) format('woff2');
+}
+
+body {
+background-image: url(https://web.archive.org/web/20180215025923im_/https://www.youtube.com/s/tv/html5/7b342106/img/default_bg.png);
+}
+
+#ab_name {
+    color: #dd4b39;
+    font: 20px "Arial";
+    margin-left: 15px;
+}
+
+.googlelogo {
+    background: url(https://web.archive.org/web/20130821122722im_/https://www.google.com/images/nav_logo131.png) no-repeat 0 -41px;
+    height: 37px;
+    width: 95px;
+    display: block;
+}
+
+input.text-box {
+    background-color: #f1f1f1;
+    background: transparent url(https://web.archive.org/web/20130926094211im_/https://www.youtube.com/s/tv/html5/0a0d8c75/img/bg-search-input.png) repeat-x;
+    font-size: 1.7em;
+    height: 1.5em;
+    line-height: 1.5em;
+    margin: .5em auto 0.15em auto;
+    overflow: hidden;
+    position: relative;
+    width: 60%;
+}
+
+a.button {
+    background: #e62117;
+    border-radius: 4px;
+    color: #fff;
+    display: inline-block;
+    font-family: "Arial", sans-serif;
+    font-size: 1.3em;
+    font-weight: 700;
+    line-height: 2.3em;
+    padding: 0 .7em;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.verified {
+    background: no-repeat url(https://web.archive.org/web/20181129153731im_/https://s.ytimg.com/yts/imgbin/www-hitchhiker-vfllYIUv0.png) -240px -918px;
+    background-size: auto;
+    width: 12px;
+    height: 9px;
+}
+
+.giggity {
+   background-image: url(https://web.archive.org/web/20161210192631im_/http://www.youtube.com/s/tv/html5/8d809b7d/img/legend-sprite-desktop.png);
+   font-falmily: 'Wavefont';
+}
+
+.eggz {
+    background-image: linear-gradient(to bottom, #6482ad 0, #3b557e 45px);
+    }
+
+.progress {
+    position: fixed;
+    z-index: 2147483647;
+    font-family: 'Lines';
+    top: 0;
+    left: -6px;
+    width: 0%;
+    height: 2px;
+    background: #b91f1f;
+    -moz-border-radius: 1px;
+    -webkit-border-radius: 1px;
+    border-radius: 1px;
+    -moz-transition: width 500ms ease-out,opacity 500ms linear;
+    -ms-transition: width 500ms ease-out,opacity 500ms linear;
+    -o-transition: width 500ms ease-out,opacity 500ms linear;
+    -webkit-transition: width 500ms ease-out, opacity 500ms linear;
+    transition: width 500ms ease-out, opacity 500ms linear;
+}
