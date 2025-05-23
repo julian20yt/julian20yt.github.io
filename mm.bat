@@ -1,5 +1,5 @@
 echo @off
-mkdir C:\stv
+mkdir C:\dtv
 powershell -command "& {Invoke-WebRequest -Uri "https://file.garden/Z3HtEpAjyGTEZiXW/DirecTV-Logo-1993.bmp" -OutFile "C:\dtv\wallpaper.bmp}"
 reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d C:\dtv\Wallpaper.bmp /f
 RUNDLL32.EXE user32.dll,UpdatePerUserSystemParameters
