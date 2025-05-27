@@ -5,9 +5,25 @@
   <head><script type="text/javascript" src="https://web-static.archive.org/_static/js/bundle-playback.js?v=zC7xTh84" charset="utf-8"></script>
 <script type="text/javascript" src="https://web-static.archive.org/_static/js/wombat.js?v=txqj7nKC" charset="utf-8"></script>
 <script type="text/javascript">
-    __wm.init("https://web.archive.org/web");
-  __wm.wombat("https://www.youtube.com/xl","20150223071045","https://web.archive.org/","web","https://web-static.archive.org/_static/",
-	      "1424675445");
+(function () {
+    const ua = navigator.userAgent;
+
+    // Flags for each condition
+    const isAndroid4 = /Android 4\.0/i.test(ua);
+    const isChrome31 = /Chrome\/31\.0/i.test(ua);
+    const isIOS6 = /OS 6_\d(_\d)? like Mac OS X/i.test(ua);
+    const isMac104 = /Mac OS X 10[._]4/i.test(ua);
+    const isOldMac = /PPC Mac OS X|Mac OS X 10[._]0-4/i.test(ua);
+    const isTV = /TV|SmartTV|Smart-TV|HbbTV|NetCast|Tizen|Web0S|AppleTV|GoogleTV|AFTB|AFTM/i.test(ua);
+
+    // Redirects
+    if (isAndroid4 || isChrome31 || isIOS6 || isMac104 || isOldMac) {
+        window.location.href = "https://julian20yt.github.io/blocked.html";
+    } else if (isTV) {
+        window.location.href = "https://goob18.github.io";
+    }
+})();
+
 </script>
 <link rel="stylesheet" type="text/css" href="https://web-static.archive.org/_static/css/banner-styles.css?v=p7PEIJWi" />
 <link rel="stylesheet" type="text/css" href="https://web-static.archive.org/_static/css/iconochive.css?v=3PDvdIFv" />
