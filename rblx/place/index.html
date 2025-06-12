@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Roblox Place Info</title>
+  <style>
+    @font-face {
+      font-family: 'DroidSansTV';
+      src: url('https://file.garden/Z3HtEpAjyGTEZiXW/droidsanstv.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body, input, button, select, textarea {
+      font-family: 'DroidSansTV', Arial, sans-serif;
+      padding: 20px;
+    }
+
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    #result {
+      margin-top: 20px;
+    }
+
+    #thumb, #avatar {
+      margin-top: 10px;
+      display: none;
+      border-radius: 5px;
+    }
+
+    .info {
+      margin-top: 10px;
+    }
+
+    .gamepasses {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .gamepass {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100px;
+    }
+
+    .gamepass img {
+      width: 100px;
+      height: 100px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Roblox Place Lookup</h1>
+  <input type="text" id="placeIdInput" placeholder="Enter Place ID">
+  <button onclick="fetchPlaceInfo()">Get Place Info</button>
+
+  <div id="result">
+    <div id="title" class="info"></div>
+    <div id="desc" class="info"></div>
+    <div id="creator" class="info"></div>
+    <img id="avatar" width="100" height="100">
+    <div id="created" class="info"></div>
+    <div id="visits" class="info"></div>
+    <div id="views" class="info"></div>
+    <div id="playing" class="info"></div>
+    <img id="thumb" width="240" height="240">
+    <div class="info" id="gamepassLabel" style="margin-top:20px;"></div>
+    <div class="gamepasses" id="gamepasses"></div>
+  </div>
+
+  <script>
+    async function fetchPlaceInfo() {
+      const placeId = document.getElementById('placeIdInput').value;
+      const title = document.getElementById('title');
+      const desc = document.getElementById('desc');
+      const creator = document.getElementById('creator');
+      const created = document.getElementById('created');
+      const visits = document.getElementById('visits');
+      const views = document.getElementById('views');
+      const playing = document.getElementById('playing');
+      const thumb = document.getElementById('thumb');
+      const avatar = document.getElementById('avatar');
+      const gamepassLabel = document.getElementById('gamepassLabel');
+      const gamepassContainer = document.getElementById('gamepasses');
+
+      // Reset
+      [title, desc, creator, created, visits, views, playing, gamepassLabel].forEach(el => el.textContent = '');
+      thumb.style.display = 'none';
+      avatar.style.display = 'none';
+      gamepassContainer.innerHTML = '';
+
+      if (!placeId || isNaN(placeId)) {
+        title.textContent = "Please enter a valid numeric Place ID.";
+        return;
+      }
+
+      try {
+        const universeRes = await fetch(`https://apis.roproxy.com/universes/v1/places/${placeId}/universe`);
+        if (!universeRes.ok) throw new Error("Invalid place ID.");
+        const universeData = await universeRes.json();
+        const universeId = universeData.universeId;
+
+        const gameRes = await fetch(`https://games.roproxy.com/v1/games?universeIds=${universeId}`);
+        if (!gameRes.ok) throw new Error("Game not found.");
+        const gameData = await gameRes.json();
+        const game = gameData.data[0];
+
+        title.textContent = `Title: ${game.name}`;
+        desc.textContent = `Description: ${game.description || "(No description)"}`;
+        created.textContent = `Created: ${game.created ? new Date(game.created).toLocaleDateString() : "N/A"}`;
+        creator.textContent = `Creator: ${game.creator?.name || "Unknown"}`;
+        visits.textContent = `Visits: ${typeof game.visits === 'number' ? game.visits.toLocaleString() : "N/A"}`;
+        views.textContent = `Views: ${typeof game.placeVisits === 'number' ? game.placeVisits.toLocaleString() : "N/A"}`;
+        playing.textContent = `Currently Playing: ${typeof game.playing === 'number' ? game.playing.toLocaleString() : "N/A"}`;
+
+        // Game thumbnail
+        const thumbRes = await fetch(`https://thumbnails.roproxy.com/v1/games/icons?universeIds=${universeId}&size=512x512&format=Png&isCircular=false`);
+        const thumbData = await thumbRes.json();
+        if (thumbData.data && thumbData.data[0]?.imageUrl) {
+          thumb.src = thumbData.data[0].imageUrl;
+          thumb.style.display = 'block';
+        }
+
+        // Creator avatar
+        if (game.creator?.id) {
+          const avatarRes = await fetch(`https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=${game.creator.id}&size=100x100&format=Png&isCircular=true`);
+          const avatarData = await avatarRes.json();
+          if (avatarData.data && avatarData.data[0]?.imageUrl) {
+            avatar.src = avatarData.data[0].imageUrl;
+            avatar.style.display = 'inline-block';
+          }
+        }
+
+        // Gamepasses
+        const passRes = await fetch(`https://games.roproxy.com/v1/games/${universeId}/game-passes`);
+        const passData = await passRes.json();
+        if (passData.data && passData.data.length > 0) {
+          gamepassLabel.textContent = `Gamepasses:`;
+          for (const pass of passData.data) {
+            const thumbRes = await fetch(`https://thumbnails.roproxy.com/v1/assets?assetIds=${pass.id}&size=150x150&format=Png&isCircular=false`);
+            const thumbData = await thumbRes.json();
+            const imageUrl = thumbData.data[0]?.imageUrl || "";
+
+            const div = document.createElement('div');
+            div.className = 'gamepass';
+            div.innerHTML = `<img src="${imageUrl}"><div>${pass.name}</div>`;
+            gamepassContainer.appendChild(div);
+          }
+        }
+
+      } catch (err) {
+        title.innerHTML = `<span style="color:red;">Error: ${err.message}</span>`;
+      }
+    }
+  </script>
+</body>
+</html>
