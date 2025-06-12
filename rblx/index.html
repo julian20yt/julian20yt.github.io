@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Roblox User Lookup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+    #result {
+      margin-top: 20px;
+    }
+    .banned {
+      color: red;
+    }
+    .info {
+      margin-top: 10px;
+    }
+    #avatar {
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Roblox User Lookup</h1>
+  <input type="text" id="userIdInput" placeholder="Enter Roblox User ID">
+  <button onclick="fetchUserInfo()">Get Info</button>
+
+  <div id="result">
+    <div id="nameBlock"></div>
+    <div id="desc" class="info"></div>
+    <div id="created" class="info"></div>
+  </div>
+  <img id="avatar" width="150" height="150">
+
+  <script>
+    function fetchUserInfo() {
+      const userId = document.getElementById('userIdInput').value;
+      const nameBlock = document.getElementById('nameBlock');
+      const desc = document.getElementById('desc');
+      const created = document.getElementById('created');
+      const avatar = document.getElementById('avatar');
+
+      nameBlock.innerHTML = desc.textContent = created.textContent = '';
+      avatar.style.display = 'none';
+
+      if (!userId || isNaN(userId)) {
+        nameBlock.textContent = "Please enter a valid numeric Roblox user ID.";
+        return;
+      }
+
+      // Fetch user info
+      fetch(`https://users.roproxy.com/v1/users/${userId}`)
+        .then(res => {
+          if (!res.ok) throw new Error("User not found.");
+          return res.json();
+        })
+        .then(data => {
+          const { name, displayName, description, created: joinDate, isBanned } = data;
+          const safeDescription = description || '(No description)';
+          const displayColor = isBanned ? 'banned' : '';
+
+          nameBlock.innerHTML = `
+            <div class="${displayColor}">Username: ${name}</div>
+            <div class="${displayColor}">Display Name: ${displayName}</div>
+          `;
+          desc.textContent = `Description: ${safeDescription}`;
+          created.textContent = `Join Date: ${new Date(joinDate).toLocaleDateString()}`;
+
+          // Avatar image
+          const avatarUrl = `https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=${userId}&size=150x150&format=Png&isCircular=false`;
+          return fetch(avatarUrl);
+        })
+        .then(res => res.json())
+        .then(json => {
+          const imageUrl = json.data[0].imageUrl;
+          avatar.src = imageUrl;
+          avatar.style.display = 'block';
+        })
+        .catch(err => {
+          nameBlock.innerHTML = `<div style="color:red;">Error: ${err.message}</div>`;
+        });
+    }
+  </script>
+</body>
+</html>
