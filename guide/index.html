@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DirecTV Guide 2011</title>
+    <style>
+        body {
+            background: #00203c;
+            font-family: 'Arial Narrow', Arial, sans-serif;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+        .guide-container {
+            width: 1100px;
+            margin: 30px auto;
+            background: #0b2446;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.72);
+            border: 3px solid #005fae;
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(to bottom, #005fae 0%, #003d6b 100%);
+            padding: 14px 26px;
+            font-size: 2.1em;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #008cff;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        .time-bar {
+            display: flex;
+            background: #003d6b;
+            color: #aee5ff;
+            font-size: 1.12em;
+            border-bottom: 2px solid #005fae;
+        }
+        .time-bar .channel-col {
+            width: 140px;
+            padding: 10px 10px;
+        }
+        .time-bar .time-col {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            border-left: 1px solid #005fae;
+        }
+        .channels-list {
+            display: flex;
+        }
+        .channels {
+            width: 140px;
+            background: #18335a;
+            border-right: 2px solid #005fae;
+        }
+        .channel {
+            padding: 18px 10px;
+            border-bottom: 1px solid #234a81;
+            font-size: 1.1em;
+            letter-spacing: 0.5px;
+        }
+        .guide-rows {
+            flex: 1;
+        }
+        .guide-row {
+            display: flex;
+            border-bottom: 1px solid #234a81;
+        }
+        .guide-cell {
+            border-left: 1px solid #005fae;
+            padding: 14px 10px;
+            background: linear-gradient(to right, #18335a 60%, #005fae 100%);
+            font-size: 1em;
+            color: #e5f4ff;
+            position: relative;
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .guide-cell.now {
+            background: linear-gradient(to right, #ffe259 0%, #ffa751 100%);
+            color: #101a32;
+            font-weight: bold;
+        }
+        .channel-logo {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+            vertical-align: middle;
+            background: #fff2;
+            border-radius: 4px;
+            text-align: center;
+            line-height: 32px;
+            font-size: 1.1em;
+            color: #fff;
+        }
+        .channel-info {
+            vertical-align: middle;
+        }
+        /* Scrollbar for long guides */
+        .guide-rows {
+            max-height: 480px;
+            overflow-y: auto;
+        }
+        /* Responsive (narrower screens) */
+        @media (max-width: 1200px) {
+            .guide-container { width: 98vw; }
+        }
+        @media (max-width: 900px) {
+            .guide-container { width: 100vw; min-width: 340px; }
+            .header { font-size: 1.3em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="guide-container">
+        <div class="header">
+            <span>DIRECTV GUIDE</span>
+            <span style="float:right;font-size:0.6em;font-weight:normal;margin-top:8px;">Sat Jun 14, 2011 8:00pm</span>
+        </div>
+        <div class="time-bar">
+            <div class="channel-col"></div>
+            <div class="time-col">8:00 PM</div>
+            <div class="time-col">8:30 PM</div>
+            <div class="time-col">9:00 PM</div>
+            <div class="time-col">9:30 PM</div>
+            <div class="time-col">10:00 PM</div>
+        </div>
+        <div class="channels-list">
+            <div class="channels">
+                <div class="channel">
+                    <span class="channel-logo">2</span>
+                    <span class="channel-info">CBS</span>
+                </div>
+                <div class="channel">
+                    <span class="channel-logo">4</span>
+                    <span class="channel-info">NBC</span>
+                </div>
+                <div class="channel">
+                    <span class="channel-logo">7</span>
+                    <span class="channel-info">ABC</span>
+                </div>
+                <div class="channel">
+                    <span class="channel-logo">8</span>
+                    <span class="channel-info">ESPN</span>
+                </div>
+                <div class="channel">
+                    <span class="channel-logo">24</span>
+                    <span class="channel-info">CNN</span>
+                </div>
+                <div class="channel">
+                    <span class="channel-logo">31</span>
+                    <span class="channel-info">FOX</span>
+                </div>
+            </div>
+            <div class="guide-rows">
+                <div class="guide-row">
+                    <div class="guide-cell now" style="flex:2;">NCIS</div>
+                    <div class="guide-cell" style="flex:1;">NCIS: LA</div>
+                    <div class="guide-cell" style="flex:1;">Criminal Minds</div>
+                    <div class="guide-cell" style="flex:1;">CSI: Miami</div>
+                    <div class="guide-cell" style="flex:1;">Local News</div>
+                </div>
+                <div class="guide-row">
+                    <div class="guide-cell" style="flex:1;">America's Got Talent</div>
+                    <div class="guide-cell now" style="flex:2;">Law & Order: SVU</div>
+                    <div class="guide-cell" style="flex:1;">Dateline NBC</div>
+                    <div class="guide-cell" style="flex:1;">The Office</div>
+                    <div class="guide-cell" style="flex:1;">Tonight Show</div>
+                </div>
+                <div class="guide-row">
+                    <div class="guide-cell" style="flex:2;">The Middle</div>
+                    <div class="guide-cell" style="flex:2;">Modern Family</div>
+                    <div class="guide-cell now" style="flex:1;">Cougar Town</div>
+                    <div class="guide-cell" style="flex:1;">Primetime</div>
+                </div>
+                <div class="guide-row">
+                    <div class="guide-cell" style="flex:2;">SportsCenter</div>
+                    <div class="guide-cell now" style="flex:2;">MLB Baseball</div>
+                    <div class="guide-cell" style="flex:1;">Baseball Tonight</div>
+                </div>
+                <div class="guide-row">
+                    <div class="guide-cell" style="flex:2;">Anderson Cooper 360</div>
+                    <div class="guide-cell" style="flex:1;">Piers Morgan</div>
+                    <div class="guide-cell now" style="flex:2;">Larry King Live</div>
+                </div>
+                <div class="guide-row">
+                    <div class="guide-cell now" style="flex:2;">American Idol</div>
+                    <div class="guide-cell" style="flex:2;">Glee</div>
+                    <div class="guide-cell" style="flex:1;">FOX News</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
