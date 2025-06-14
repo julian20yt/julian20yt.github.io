@@ -4,196 +4,247 @@
     <meta charset="UTF-8">
     <title>DirecTV Guide 2011</title>
     <style>
-        body {
-            background: #00203c;
-            font-family: 'Arial Narrow', Arial, sans-serif;
-            color: #ffffff;
+        html, body {
+            height: 100%;
             margin: 0;
             padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #040609;
         }
-        .guide-container {
-            width: 1100px;
-            margin: 30px auto;
-            background: #0b2446;
+        body {
+            min-height: 100vh;
+            background: #040609;
+        }
+        /* Background using image 1 */
+        .guide-bg {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0; left: 0;
+            z-index: 0;
+            background: url('https://copilotprodattachments.blob.core.windows.net/github-production-copilot-attachments/155905626/374fdc92-4c9d-418b-a4a0-66f26a4fcae9?sp=r&sv=2018-11-09&sr=b&spr=https&se=2025-06-14T17%3A00%3A41Z&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2025-06-14T16%3A35%3A33Z&ske=2025-06-14T17%3A35%3A46Z&sks=b&skv=2018-11-09&sig=uOHgtlPnQsw74b8UW%2FsfxVTgrtDkodLqjLv20kJhcXw%3D') no-repeat center center;
+            background-size: cover;
+            opacity: 1;
+        }
+        .guide-main {
+            position: relative;
+            z-index: 1;
+            width: 1200px;
+            margin: 80px auto 0 auto;
+            background: rgba(20, 26, 38, 0.6);
             border-radius: 8px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.72);
-            border: 3px solid #005fae;
+            box-shadow: 0 8px 32px #000a;
+            border: 1.5px solid #222;
             overflow: hidden;
         }
-        .header {
-            background: linear-gradient(to bottom, #005fae 0%, #003d6b 100%);
-            padding: 14px 26px;
-            font-size: 2.1em;
-            letter-spacing: 1px;
-            border-bottom: 2px solid #008cff;
+        .guide-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 36px 10px 36px;
+        }
+        .guide-logo {
+            height: 38px;
+        }
+        .guide-title {
+            color: #bce2ff;
+            font-size: 2.3em;
             font-weight: bold;
-            color: #ffffff;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px #002a50;
         }
-        .time-bar {
-            display: flex;
-            background: #003d6b;
-            color: #aee5ff;
-            font-size: 1.12em;
-            border-bottom: 2px solid #005fae;
-        }
-        .time-bar .channel-col {
-            width: 140px;
-            padding: 10px 10px;
-        }
-        .time-bar .time-col {
-            flex: 1;
-            text-align: center;
-            padding: 10px 0;
-            border-left: 1px solid #005fae;
-        }
-        .channels-list {
-            display: flex;
-        }
-        .channels {
-            width: 140px;
-            background: #18335a;
-            border-right: 2px solid #005fae;
-        }
-        .channel {
-            padding: 18px 10px;
-            border-bottom: 1px solid #234a81;
-            font-size: 1.1em;
+        .guide-date {
+            color: #e0e9ef;
+            font-size: 1.04em;
+            font-weight: 500;
             letter-spacing: 0.5px;
         }
-        .guide-rows {
-            flex: 1;
+        .guide-table-wrap {
+            background: none;
+            padding: 0 36px 0 36px;
+        }
+        .guide-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 0;
+        }
+        .guide-time-bar th {
+            background: rgba(30,70,120,0.60);
+            color: #f0fdff;
+            font-size: 1.13em;
+            font-weight: 600;
+            text-align: center;
+            border-bottom: 2px solid #5186b4;
+            padding: 10px 0 10px 0;
+            border-right: 1.5px solid #232d3d;
+        }
+        .guide-time-bar th.channel-th {
+            background: transparent;
+            border-right: 2.5px solid #232d3d;
         }
         .guide-row {
-            display: flex;
-            border-bottom: 1px solid #234a81;
+            background: rgba(18,21,30,0.75);
+            height: 54px;
+        }
+        .guide-row .channel {
+            color: #bfefff;
+            font-weight: bold;
+            font-size: 1.12em;
+            background: rgba(15,22,36,0.90);
+            border-right: 2.5px solid #222c36;
+            padding-left: 12px;
+            width: 120px;
+            min-width: 120px;
         }
         .guide-cell {
-            border-left: 1px solid #005fae;
-            padding: 14px 10px;
-            background: linear-gradient(to right, #18335a 60%, #005fae 100%);
-            font-size: 1em;
-            color: #e5f4ff;
+            color: #f2f7fa;
+            font-size: 1.06em;
+            padding: 0 10px;
+            border-right: 1.5px solid #222c36;
             position: relative;
-            flex: 1;
-            min-width: 0;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
+            background: rgba(30,39,50,0.75);
         }
         .guide-cell.now {
-            background: linear-gradient(to right, #ffe259 0%, #ffa751 100%);
-            color: #101a32;
+            background: linear-gradient(90deg, #6eb5ff 0%, #0f67b1 100%);
+            color: #002041;
             font-weight: bold;
+            text-shadow: 0 2px 8px #fff7;
         }
-        .channel-logo {
+        .guide-cell.catdog {
+            background: linear-gradient(90deg, #ffe259 0%, #ffa751 100%);
+            color: #2f2300;
+            font-family: 'Comic Sans MS', 'Comic Sans', cursive, Arial, sans-serif;
+            font-weight: bold;
+            text-shadow: 1px 1px 0 #fff3;
+        }
+        .guide-table tfoot td {
+            background: rgba(25,30,38,0.92);
+            color: #e0e9ef;
+            font-size: 1.03em;
+            font-weight: 400;
+            padding: 12px 0 10px 16px;
+            border-top: 2.5px solid #232d3d;
+            letter-spacing: 1px;
+        }
+        .guide-footer-dot {
             display: inline-block;
-            width: 32px;
-            height: 32px;
-            margin-right: 10px;
-            vertical-align: middle;
-            background: #fff2;
-            border-radius: 4px;
-            text-align: center;
-            line-height: 32px;
-            font-size: 1.1em;
-            color: #fff;
-        }
-        .channel-info {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 6px;
             vertical-align: middle;
         }
-        /* Scrollbar for long guides */
-        .guide-rows {
-            max-height: 480px;
-            overflow-y: auto;
+        .dot-red { background: #e74c3c; }
+        .dot-green { background: #2ecc40; }
+        .dot-yellow { background: #ffe259; border: 1px solid #998800; }
+        .guide-footer-right {
+            float: right;
+            padding-right: 30px;
+            color: #bfefff;
+            font-weight: 500;
         }
-        /* Responsive (narrower screens) */
-        @media (max-width: 1200px) {
-            .guide-container { width: 98vw; }
+        @media (max-width: 1300px) {
+            .guide-main { width: 98vw; }
         }
         @media (max-width: 900px) {
-            .guide-container { width: 100vw; min-width: 340px; }
-            .header { font-size: 1.3em; }
+            .guide-main { width: 100vw; min-width: 340px; }
+            .guide-header { flex-direction: column; gap: 10px; }
+            .guide-table-wrap { padding: 0 8px; }
         }
     </style>
+    <script>
+        // Set current date in header
+        window.onload = function() {
+            var dateElem = document.getElementById('current-date');
+            var now = new Date();
+            // Format: Sat Jun 14, 2011 8:00pm
+            var days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+            var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            var day = days[now.getDay()];
+            var month = months[now.getMonth()];
+            var date = now.getDate();
+            var year = now.getFullYear();
+            var hours = now.getHours();
+            var mins = now.getMinutes();
+            var ampm = hours >= 12 ? 'pm' : 'am';
+            var displayHour = hours % 12 || 12;
+            var displayMins = mins < 10 ? '0'+mins : mins;
+            dateElem.textContent = day + ' ' + month + ' ' + date + ', ' + year + ' ' + displayHour + ':' + displayMins + ampm;
+        }
+    </script>
 </head>
 <body>
-    <div class="guide-container">
-        <div class="header">
-            <span>DIRECTV GUIDE</span>
-            <span style="float:right;font-size:0.6em;font-weight:normal;margin-top:8px;">Sat Jun 14, 2011 8:00pm</span>
+    <div class="guide-bg"></div>
+    <div class="guide-main">
+        <div class="guide-header">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/59/DirecTV_logo_2004.svg" alt="DirecTV Logo" class="guide-logo">
+            <span class="guide-title">Guide</span>
+            <span class="guide-date" id="current-date"></span>
         </div>
-        <div class="time-bar">
-            <div class="channel-col"></div>
-            <div class="time-col">8:00 PM</div>
-            <div class="time-col">8:30 PM</div>
-            <div class="time-col">9:00 PM</div>
-            <div class="time-col">9:30 PM</div>
-            <div class="time-col">10:00 PM</div>
-        </div>
-        <div class="channels-list">
-            <div class="channels">
-                <div class="channel">
-                    <span class="channel-logo">2</span>
-                    <span class="channel-info">CBS</span>
-                </div>
-                <div class="channel">
-                    <span class="channel-logo">4</span>
-                    <span class="channel-info">NBC</span>
-                </div>
-                <div class="channel">
-                    <span class="channel-logo">7</span>
-                    <span class="channel-info">ABC</span>
-                </div>
-                <div class="channel">
-                    <span class="channel-logo">8</span>
-                    <span class="channel-info">ESPN</span>
-                </div>
-                <div class="channel">
-                    <span class="channel-logo">24</span>
-                    <span class="channel-info">CNN</span>
-                </div>
-                <div class="channel">
-                    <span class="channel-logo">31</span>
-                    <span class="channel-info">FOX</span>
-                </div>
-            </div>
-            <div class="guide-rows">
-                <div class="guide-row">
-                    <div class="guide-cell now" style="flex:2;">NCIS</div>
-                    <div class="guide-cell" style="flex:1;">NCIS: LA</div>
-                    <div class="guide-cell" style="flex:1;">Criminal Minds</div>
-                    <div class="guide-cell" style="flex:1;">CSI: Miami</div>
-                    <div class="guide-cell" style="flex:1;">Local News</div>
-                </div>
-                <div class="guide-row">
-                    <div class="guide-cell" style="flex:1;">America's Got Talent</div>
-                    <div class="guide-cell now" style="flex:2;">Law & Order: SVU</div>
-                    <div class="guide-cell" style="flex:1;">Dateline NBC</div>
-                    <div class="guide-cell" style="flex:1;">The Office</div>
-                    <div class="guide-cell" style="flex:1;">Tonight Show</div>
-                </div>
-                <div class="guide-row">
-                    <div class="guide-cell" style="flex:2;">The Middle</div>
-                    <div class="guide-cell" style="flex:2;">Modern Family</div>
-                    <div class="guide-cell now" style="flex:1;">Cougar Town</div>
-                    <div class="guide-cell" style="flex:1;">Primetime</div>
-                </div>
-                <div class="guide-row">
-                    <div class="guide-cell" style="flex:2;">SportsCenter</div>
-                    <div class="guide-cell now" style="flex:2;">MLB Baseball</div>
-                    <div class="guide-cell" style="flex:1;">Baseball Tonight</div>
-                </div>
-                <div class="guide-row">
-                    <div class="guide-cell" style="flex:2;">Anderson Cooper 360</div>
-                    <div class="guide-cell" style="flex:1;">Piers Morgan</div>
-                    <div class="guide-cell now" style="flex:2;">Larry King Live</div>
-                </div>
-                <div class="guide-row">
-                    <div class="guide-cell now" style="flex:2;">American Idol</div>
-                    <div class="guide-cell" style="flex:2;">Glee</div>
-                    <div class="guide-cell" style="flex:1;">FOX News</div>
-                </div>
-            </div>
+        <div class="guide-table-wrap">
+            <table class="guide-table">
+                <thead>
+                <tr class="guide-time-bar">
+                    <th class="channel-th"></th>
+                    <th>8:00 PM</th>
+                    <th>8:30 PM</th>
+                    <th>9:00 PM</th>
+                    <th>9:30 PM</th>
+                    <th>10:00 PM</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="guide-row">
+                    <td class="channel">2 CBS</td>
+                    <td class="guide-cell now" colspan="2">NCIS</td>
+                    <td class="guide-cell">NCIS: LA</td>
+                    <td class="guide-cell">Criminal Minds</td>
+                    <td class="guide-cell">Local News</td>
+                </tr>
+                <tr class="guide-row">
+                    <td class="channel">4 NBC</td>
+                    <td class="guide-cell">America's Got Talent</td>
+                    <td class="guide-cell now" colspan="2">Law & Order: SVU</td>
+                    <td class="guide-cell">The Office</td>
+                    <td class="guide-cell">Tonight Show</td>
+                </tr>
+                <tr class="guide-row">
+                    <td class="channel">7 ABC</td>
+                    <td class="guide-cell" colspan="2">The Middle</td>
+                    <td class="guide-cell" colspan="2">Modern Family</td>
+                    <td class="guide-cell now">Cougar Town</td>
+                </tr>
+                <tr class="guide-row">
+                    <td class="channel">8 ESPN</td>
+                    <td class="guide-cell" colspan="2">SportsCenter</td>
+                    <td class="guide-cell now" colspan="2">MLB Baseball</td>
+                    <td class="guide-cell">Baseball Tonight</td>
+                </tr>
+                <tr class="guide-row">
+                    <td class="channel">24 CNN</td>
+                    <td class="guide-cell" colspan="2">Anderson Cooper 360</td>
+                    <td class="guide-cell">Piers Morgan</td>
+                    <td class="guide-cell catdog" colspan="2">CatDog</td>
+                </tr>
+                <tr class="guide-row">
+                    <td class="channel">31 FOX</td>
+                    <td class="guide-cell now" colspan="2">American Idol</td>
+                    <td class="guide-cell" colspan="2">Glee</td>
+                    <td class="guide-cell">FOX News</td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <span class="guide-footer-dot dot-red"></span> - 12hrs
+                        <span class="guide-footer-dot dot-green"></span> + 12hrs
+                        <span class="guide-footer-dot dot-yellow"></span> Guide Options
+                        <span class="guide-footer-right">All Channels</span>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
 </body>
