@@ -3,57 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stream Details</title>
+    <title>Twitch Stream Details</title>
 </head>
 <body>
-    <h1>Twitch Stream Details for JimmyHere</h1>
-    <div id="stream-info">
+    <h1>Stream Details for JimmyHere</h1>
+    <div id="stream-details">
         <p>Loading...</p>
     </div>
 
     <script>
-        // Set up the Twitch API client ID and OAuth token
-        const clientId = 'YOUR_CLIENT_ID';  // Replace with your Twitch Client ID
-        const oauthToken = 'YOUR_OAUTH_TOKEN'; // Replace with your Twitch OAuth token
-        const username = 'jimmyhere';  // Twitch username
+        // Twitch channel username
+        const username = 'jimmyhere'; // Twitch username
+        const url = `https://www.twitch.tv/${username}`;
 
-        // The API endpoint to get stream details
-        const endpoint = `https://api.twitch.tv/helix/streams?user_login=${username}`;
+        // Fetch the HTML of the page using Fetch API
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                const doc = new DOMParser().parseFromString(html, 'text/html');
+                
+                // Check if the stream is live
+                const liveStatus = doc.querySelector('meta[property="og:video:type"]');
+                
+                if (liveStatus && liveStatus.content === 'live') {
+                    // Extract stream title, game name, viewers, etc.
+                    const title = doc.querySelector('meta[property="og:title"]').content;
+                    const game = doc.querySelector('meta[property="og:video:game"]').content;
+                    const viewers = doc.querySelector('meta[property="og:video:viewers"]').content;
 
-        // Fetch stream details using the Fetch API
-        fetch(endpoint, {
-            headers: {
-                'Client-ID': clientId,
-                'Authorization': `Bearer ${oauthToken}`
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            const streamInfo = document.getElementById('stream-info');
-
-            if (data.data && data.data.length > 0) {
-                // User is live
-                const stream = data.data[0];
-                streamInfo.innerHTML = `
-                    <p>Status: Live</p>
-                    <p>Title: ${stream.title}</p>
-                    <p>Game: ${stream.game_name}</p>
-                    <p>Viewers: ${stream.viewer_count}</p>
-                    <p>Started at: ${new Date(stream.started_at).toLocaleString()}</p>
-                `;
-            } else {
-                // User is offline
-                streamInfo.innerHTML = '<p>Status: Offline</p>
-                    <p>Title: ${stream.title}</p>
-                    <p>Game: ${stream.game_name}</p>
-                    <p>Viewers: ${stream.viewer_count}</p>
-                    <p>Started at: ${new Date(stream.started_at).toLocaleString()}';
-            }
-        })
-        .catch(error => {
-            document.getElementById('stream-info').innerHTML = '<p>Failed to load stream details. Please try again later.</p>';
-            console.error('Error:', error);
-        });
+                    // Display the extracted details
+                    document.getElementById('stream-details').innerHTML = `
+                        <p>Status: Live</p>
+                        <p>Title: ${title}</p>
+                        <p>Game: ${game}</p>
+                        <p>Viewers: ${viewers}</p>
+                    `;
+                } else {
+                    // If not live
+                    document.getElementById('stream-details').innerHTML = '
+                                                <p>Status: offline</p>
+                        <p>Title: ${title}</p>
+                        <p>Game: ${game}</p>
+                        <p>Viewers: ${viewers}</p>
+                        ';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching Twitch page:', error);
+                document.getElementById('stream-details').innerHTML = '<p>an wild error has popped up.</p>';
+            });
     </script>
 </body>
 </html>
