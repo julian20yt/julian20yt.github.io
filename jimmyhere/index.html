@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stream Details</title>
+</head>
+<body>
+    <h1>Twitch Stream Details for JimmyHere</h1>
+    <div id="stream-info">
+        <p>Loading...</p>
+    </div>
+
+    <script>
+        // Set up the Twitch API client ID and OAuth token
+        const clientId = 'YOUR_CLIENT_ID';  // Replace with your Twitch Client ID
+        const oauthToken = 'YOUR_OAUTH_TOKEN'; // Replace with your Twitch OAuth token
+        const username = 'jimmyhere';  // Twitch username
+
+        // The API endpoint to get stream details
+        const endpoint = `https://api.twitch.tv/helix/streams?user_login=${username}`;
+
+        // Fetch stream details using the Fetch API
+        fetch(endpoint, {
+            headers: {
+                'Client-ID': clientId,
+                'Authorization': `Bearer ${oauthToken}`
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const streamInfo = document.getElementById('stream-info');
+
+            if (data.data && data.data.length > 0) {
+                // User is live
+                const stream = data.data[0];
+                streamInfo.innerHTML = `
+                    <p>Status: Live</p>
+                    <p>Title: ${stream.title}</p>
+                    <p>Game: ${stream.game_name}</p>
+                    <p>Viewers: ${stream.viewer_count}</p>
+                    <p>Started at: ${new Date(stream.started_at).toLocaleString()}</p>
+                `;
+            } else {
+                // User is offline
+                streamInfo.innerHTML = '<p>Status: Offline</p>
+                    <p>Title: ${stream.title}</p>
+                    <p>Game: ${stream.game_name}</p>
+                    <p>Viewers: ${stream.viewer_count}</p>
+                    <p>Started at: ${new Date(stream.started_at).toLocaleString()}';
+            }
+        })
+        .catch(error => {
+            document.getElementById('stream-info').innerHTML = '<p>Failed to load stream details. Please try again later.</p>';
+            console.error('Error:', error);
+        });
+    </script>
+</body>
+</html>
